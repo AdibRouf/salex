@@ -20,7 +20,6 @@ const VideoAnalysisApp = () => {
   const [page2Response, setPage2Response] = useState({ focused: '', raw: '' });
   const [page2Status, setPage2Status] = useState('Ready to upload');
   const [page2Uploading, setPage2Uploading] = useState(false);
-  const [page2OverlayVideo, setPage2OverlayVideo] = useState(null);
 
   // Page 1 Functions
   const handlePage1VideoUpload = (event) => {
@@ -131,7 +130,6 @@ const VideoAnalysisApp = () => {
 
     setPage2Uploading(true);
     setPage2Status('Processing files...');
-    setPage2OverlayVideo(null); // Reset previous video
 
     const formData = new FormData();
     formData.append('file', page2Video);
@@ -149,20 +147,11 @@ const VideoAnalysisApp = () => {
 
       const data = await response.json();
       
-      if (response.ok) {
-        setPage2Status('Processing complete!');
-        setPage2Response({
-          focused: data.focused_response || 'No focused response available',
-          raw: data.raw_response || 'No raw response available'
-        });
-        
-        // Set the overlay video URL if available
-        if (data.overlay_video_url) {
-          setPage2OverlayVideo(data.overlay_video_url);
-        }
-      } else {
-        setPage2Status('Error: ' + (data.error || 'Unknown error'));
-      }
+      setPage2Status('Processing complete!');
+      setPage2Response({
+        focused: data.focused_response || 'No focused response available',
+        raw: data.raw_response || 'No raw response available'
+      });
     } catch (error) {
       setPage2Status('Error: ' + error.message);
       console.error('Error:', error);
@@ -201,35 +190,6 @@ const VideoAnalysisApp = () => {
       console.error(err);
       setPage2Status('Error loading demo content: ' + err.message);
     }
-  };
-
-  const OverlayVideoPlayer = ({ videoUrl }) => {
-    if (!videoUrl) return null;
-  
-    return (
-      <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-        <h3 className="text-lg font-semibold mb-3">Generated Heatmap Overlay Video:</h3>
-        <video 
-          controls 
-          width="100%" 
-          height="auto" 
-          className="rounded-lg shadow-lg"
-          style={{ maxWidth: '800px' }}
-        >
-          <source src={videoUrl} type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div className="mt-2">
-          <a 
-            href={videoUrl} 
-            download 
-            className="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
-          >
-            Download Video
-          </a>
-        </div>
-      </div>
-    );
   };
 
   const Navigation = () => (
@@ -507,7 +467,7 @@ const VideoAnalysisApp = () => {
         </div>
         <p className="text-gray-300">Upload a video and saliency map to see a heatmap</p>
       </div>
-  
+
       <div className="grid lg:grid-cols-3 gap-8">
         {/* Video Section */}
         <div className="lg:col-span-2 bg-gray-800/20 backdrop-blur-lg rounded-2xl p-6 border border-gray-500/30">
@@ -517,43 +477,28 @@ const VideoAnalysisApp = () => {
           </h3>
           
           <div className="relative aspect-video bg-gray-900/50 rounded-lg mb-4 overflow-hidden">
-            {/* Show generated overlay video if available, otherwise show original video + saliency */}
-            {page2OverlayVideo ? (
-              <div className="relative w-full h-full">
-                <video
-                  src={page2OverlayVideo}
-                  controls
-                  className="w-full h-full object-contain"
-                />
-                <div className="absolute top-2 left-2 bg-black/70 text-white px-2 py-1 rounded text-xs">
-                  Generated Heatmap Overlay
-                </div>
-              </div>
-            ) : (
-              <>
-                {/* Base Video */}
-                {page2Preview && (
-                  <video
-                    src={page2Preview}
-                    controls
-                    className="absolute top-0 left-0 w-full h-full object-contain z-0"
-                  />
-                )}
-  
-                {/* Saliency Overlay */}
-                {page2SalPreview && (
-                  <video
-                    src={page2SalPreview}
-                    autoPlay
-                    loop
-                    muted
-                    className="absolute top-0 left-0 w-full h-full object-contain z-10 opacity-60 pointer-events-none"
-                  />
-                )}
-              </>
-            )}
-          </div>
-  
+  {/* Base Video */}
+  {page2Preview && (
+    <video
+      src={page2Preview}
+      controls
+      className="absolute top-0 left-0 w-full h-full object-contain z-0"
+    />
+  )}
+
+  {/* Saliency Overlay */}
+  {page2SalPreview && (
+    <video
+      src={page2SalPreview}
+      autoPlay
+      loop
+      muted
+      className="absolute top-0 left-0 w-full h-full object-contain z-10 opacity-60 pointer-events-none"
+    />
+  )}
+</div>
+
+
           {/* File Inputs */}
           <div className="space-y-4 mb-4">
             {/* Video Input */}
@@ -571,7 +516,7 @@ const VideoAnalysisApp = () => {
                 </span>
               </div>
             </div>
-  
+
             {/* Saliency Input */}
             <div className="relative">
               <input
@@ -597,7 +542,7 @@ const VideoAnalysisApp = () => {
             <Play className="w-5 h-5 opacity-70 group-hover:opacity-100" />
             Test out a Demo!
           </button>
-  
+
           {/* Submit Button */}
           <button
             onClick={handlePage2Submit}
@@ -616,7 +561,7 @@ const VideoAnalysisApp = () => {
               </>
             )}
           </button>
-  
+
           {/* Status */}
           <div className="mt-4 flex items-center gap-3 bg-gray-900/40 rounded-lg px-4 py-3">
             {page2Uploading ? (
@@ -629,7 +574,7 @@ const VideoAnalysisApp = () => {
             <span className="text-white text-sm font-medium">{page2Status}</span>
           </div>
         </div>
-  
+
         {/* Response Section */}
         <div className="space-y-4">
           {/* Raw Response */}
@@ -638,30 +583,26 @@ const VideoAnalysisApp = () => {
             <textarea
               value={page2Response.raw}
               readOnly
-              className="w-full h-64 bg-gray-900/40 border border-gray-500/30 rounded-lg p-3 text-white text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-gray-400"
-              placeholder="Raw analysis...if text is long you are able to scroll within this box"
+              className="w-full h-32 bg-gray-900/40 border border-gray-500/30 rounded-lg p-3 text-white text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-gray-400"
+              placeholder="Raw analysis..."
             />
           </div>
-  
+
           {/* Focused Response */}
           <div className="bg-gray-800/20 backdrop-blur-lg rounded-2xl p-4 border border-gray-500/30">
             <h4 className="text-lg font-semibold text-white mb-3">Focused Analysis</h4>
             <textarea
               value={page2Response.focused}
               readOnly
-              className="w-full h-64 bg-gray-900/40 border border-gray-500/30 rounded-lg p-3 text-white text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-gray-400"
-              placeholder="Focused analysis...if text is long you are able to scroll within this box"
+              className="w-full h-32 bg-gray-900/40 border border-gray-500/30 rounded-lg p-3 text-white text-sm placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-gray-400"
+              placeholder="Focused analysis..."
             />
           </div>
         </div>
       </div>
-  
-      {/* Don't display separate overlay video player since it's now integrated above */}
     </div>
   );
 
-
-  
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-slate-900">
       {currentPage === 0 ? (
