@@ -1,0 +1,12 @@
+{
+  "files": {
+    "main.js": "/salex/static/js/main.3a6aa94e.js",
+    "static/js/453.419a5d54.chunk.js": "/salex/static/js/453.419a5d54.chunk.js",
+    "index.html": "/salex/index.html",
+    "main.3a6aa94e.js.map": "/salex/static/js/main.3a6aa94e.js.map",
+    "453.419a5d54.chunk.js.map": "/salex/static/js/453.419a5d54.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/js/main.3a6aa94e.js"
+  ]
+}
