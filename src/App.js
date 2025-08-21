@@ -46,7 +46,7 @@ const VideoAnalysisApp = () => {
     formData.append('file', page1Video);
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/upload', {
+      const response = await fetch('https://salex-flask-server.onrender.com/upload', {
         method: 'POST',
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
