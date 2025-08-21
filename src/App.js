@@ -71,7 +71,7 @@ const VideoAnalysisApp = () => {
     setPage1Status('Fetching demo video...');
   
     try {
-      const response = await fetch('http://127.0.0.1:5000/demo');
+      const response = await fetch('https://salex-flask-server.onrender.com/demo');
 
       if (!response.ok) throw new Error('Demo video fetch failed');
 
@@ -138,7 +138,7 @@ const VideoAnalysisApp = () => {
     formData.append('saliency', page2Saliency);
 
     try {
-      const response = await fetch('http://127.0.0.1:5000/upload', {
+      const response = await fetch('https://salex-flask-server.onrender.com/upload', {
         method: 'POST',
         headers: {
           'X-Requested-With': 'XMLHttpRequest',
@@ -175,10 +175,10 @@ const VideoAnalysisApp = () => {
     setPage2Status('Fetching demo video & Saliency...');
   
     try {
-      const response = await fetch('http://127.0.0.1:5000/demoOverlay');
+      const response = await fetch('https://salex-flask-server.onrender.com/demoOverlay');
       if (!response.ok) throw new Error('Demo video fetch failed');
 
-      const salresponse = await fetch('http://127.0.0.1:5000/demotwo');
+      const salresponse = await fetch('https://salex-flask-server.onrender.com/demotwo');
       if (!salresponse.ok) throw new Error('Demo saliency fetch failed');
 
       const blob = await response.blob();
