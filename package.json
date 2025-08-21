@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://adibrouf.github.io/salex/",
-  "proxy": "http://127.0.0.1:5000/",
+  "proxy": "https://salex-flask-server.onrender.com",
   "dependencies": {
     "@supabase/supabase-js": "^2.50.4",
     "@testing-library/dom": "^10.4.0",
