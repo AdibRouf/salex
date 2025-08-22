@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Vehicle Decision Model</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,0 1000,80 0,100"/></svg>');
+            background-size: cover;
+        }
+
+        header > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .authors {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin-top: 1rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .authors h3 {
+            font-size: 1.2rem;
+            font-weight: 500;
+            opacity: 0.9;
+        }
+
+        main {
+            padding: 3rem 2rem;
+        }
+
+        .overview {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #667eea;
+        }
+
+        .overview h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .overview p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #495057;
+        }
+
+        .examples-section {
+            margin-top: 3rem;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            color: #2c3e50;
+            margin-bottom: 3rem;
+            font-weight: 600;
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .example-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .example-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .example-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .example-header h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .media-upload {
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .upload-area {
+            border: 2px dashed #667eea;
+            border-radius: 10px;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: linear-gradient(135deg, #f0f2ff 0%, #e8ecff 100%);
+            transform: scale(1.02);
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #667eea;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .upload-text {
+            color: #6c757d;
+            font-size: 1rem;
+        }
+
+        .file-input {
+            display: none;
+        }
+
+        .btn-upload {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .btn-upload:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .media-preview {
+            margin-top: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .media-preview img, .media-preview video {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            header {
+                padding: 2rem 1rem;
+            }
+
+            h1 {
+                font-size: 2.2rem;
+            }
+
+            main {
+                padding: 2rem 1rem;
+            }
+
+            .overview {
+                padding: 2rem;
+            }
+
+            .examples-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .example-card:nth-child(1) { animation-delay: 0.1s; }
+        .example-card:nth-child(2) { animation-delay: 0.2s; }
+        .example-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Autonomous Vehicle Decision Model</h1>
+            <div class="authors">
+                <h3>Adib Rouf • Daniel Baker • Guo Zhefan</h3>
+            </div>
+        </header>
+
+        <main>
+            <section class="overview fade-in">
+                <h2>Overview</h2>
+                <p>
+                    This research presents a comprehensive model for autonomous vehicle decision-making in complex traffic scenarios. 
+                    Our approach integrates advanced machine learning algorithms with real-time sensor data to enable intelligent 
+                    navigation decisions. The model considers multiple factors including pedestrian behavior, traffic flow patterns, 
+                    weather conditions, and road infrastructure to make optimal driving decisions. Through extensive simulation and 
+                    real-world testing, we demonstrate the effectiveness of our approach in improving both safety and efficiency 
+                    in autonomous vehicle operations. The system utilizes deep reinforcement learning combined with computer vision 
+                    techniques to process environmental data and generate appropriate vehicle responses in real-time scenarios.
+                </p>
+            </section>
+
+            <section class="examples-section">
+                <h2 class="section-title">Model Examples & Demonstrations</h2>
+                
+                <div class="examples-grid">
+                    <div class="example-card fade-in">
+                        <div class="example-header">
+                            <h3>Urban Traffic Navigation</h3>
+                        </div>
+                        <div class="media-upload">
+                            <div class="upload-area" onclick="document.getElementById('upload1').click()">
+                                <span class="upload-icon">🎥</span>
+                                <div class="upload-text">
+                                    Click to upload video or image<br>
+                                    <small>Supports MP4, AVI, MOV, JPG, PNG</small>
+                                </div>
+                            </div>
+                            <input type="file" id="upload1" class="file-input" accept="video/*,image/*" onchange="handleFileUpload(event, 'preview1')">
+                            <div id="preview1" class="media-preview"></div>
+                        </div>
+                    </div>
+
+                    <div class="example-card fade-in">
+                        <div class="example-header">
+                            <h3>Highway Merging Scenario</h3>
+                        </div>
+                        <div class="media-upload">
+                            <div class="upload-area" onclick="document.getElementById('upload2').click()">
+                                <span class="upload-icon">🎥</span>
+                                <div class="upload-text">
+                                    Click to upload video or image<br>
+                                    <small>Supports MP4, AVI, MOV, JPG, PNG</small>
+                                </div>
+                            </div>
+                            <input type="file" id="upload2" class="file-input" accept="video/*,image/*" onchange="handleFileUpload(event, 'preview2')">
+                            <div id="preview2" class="media-preview"></div>
+                        </div>
+                    </div>
+
+                    <div class="example-card fade-in">
+                        <div class="example-header">
+                            <h3>Pedestrian Detection & Avoidance</h3>
+                        </div>
+                        <div class="media-upload">
+                            <div class="upload-area" onclick="document.getElementById('upload3').click()">
+                                <span class="upload-icon">🎥</span>
+                                <div class="upload-text">
+                                    Click to upload video or image<br>
+                                    <small>Supports MP4, AVI, MOV, JPG, PNG</small>
+                                </div>
+                            </div>
+                            <input type="file" id="upload3" class="file-input" accept="video/*,image/*" onchange="handleFileUpload(event, 'preview3')">
+                            <div id="preview3" class="media-preview"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2025 Autonomous Vehicle Decision Model Research. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        function handleFileUpload(event, previewId) {
+            const file = event.target.files[0];
+            const preview = document.getElementById(previewId);
+            
+            if (file) {
+                const fileType = file.type;
+                const fileURL = URL.createObjectURL(file);
+                
+                preview.innerHTML = '';
+                
+                if (fileType.startsWith('video/')) {
+                    const video = document.createElement('video');
+                    video.src = fileURL;
+                    video.controls = true;
+                    video.style.width = '100%';
+                    video.style.borderRadius = '10px';
+                    preview.appendChild(video);
+                } else if (fileType.startsWith('image/')) {
+                    const img = document.createElement('img');
+                    img.src = fileURL;
+                    img.style.width = '100%';
+                    img.style.borderRadius = '10px';
+                    preview.appendChild(img);
+                }
+            }
+        }
+
+        // Add smooth scrolling and animation triggers
+        window.addEventListener('load', function() {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((element, index) => {
+                setTimeout(() => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+
+        // Add hover effects for upload areas
+        document.querySelectorAll('.upload-area').forEach(area => {
+            area.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#764ba2';
+                this.style.background = 'linear-gradient(135deg, #e8ecff 0%, #dde3ff 100%)';
+            });
+
+            area.addEventListener('dragleave', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#667eea';
+                this.style.background = 'linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%)';
+            });
+
+            area.addEventListener('drop', function(e) {
+                e.preventDefault();
+                this.style.borderColor = '#667eea';
+                this.style.background = 'linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%)';
+            });
+        });
+    </script>
+</body>
+</html>
