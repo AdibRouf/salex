@@ -14,28 +14,29 @@
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            color: #333;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
+            color: #333;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
+            padding: 20px;
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             border-radius: 20px;
-            overflow: hidden;
             margin-top: 20px;
             margin-bottom: 20px;
         }
 
         header {
-            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-            color: white;
-            padding: 3rem 2rem;
             text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(45deg, #2c3e50, #3498db);
+            border-radius: 15px;
+            margin-bottom: 40px;
             position: relative;
             overflow: hidden;
         }
@@ -47,375 +48,291 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="rgba(255,255,255,0.1)"><polygon points="0,0 1000,0 1000,80 0,100"/></svg>');
-            background-size: cover;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="40%" r="50%"><stop offset="0%" stop-color="rgba(255,255,255,.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><rect width="100" height="20" fill="url(%23a)"/></svg>') repeat-x;
+            animation: shimmer 3s ease-in-out infinite;
         }
 
-        header > * {
-            position: relative;
-            z-index: 2;
+        @keyframes shimmer {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
         }
 
         h1 {
-            font-size: 2.8rem;
+            color: white;
+            font-size: 2.8em;
             font-weight: 700;
-            margin-bottom: 1rem;
+            margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
         }
 
         .authors {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 1rem 2rem;
-            border-radius: 50px;
-            display: inline-block;
-            margin-top: 1rem;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ecf0f1;
+            font-size: 1.3em;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
         }
 
-        .authors h3 {
-            font-size: 1.2rem;
-            font-weight: 500;
-            opacity: 0.9;
-        }
-
-        main {
-            padding: 3rem 2rem;
-        }
-
-        .overview {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 2.5rem;
+        .section {
+            margin: 50px 0;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.8);
             border-radius: 15px;
-            margin-bottom: 3rem;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
-        .overview h2 {
-            color: #2c3e50;
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
-            font-weight: 600;
-        }
-
-        .overview p {
-            font-size: 1.1rem;
-            line-height: 1.8;
-            color: #495057;
-        }
-
-        .examples-section {
-            margin-top: 3rem;
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
         }
 
         .section-title {
-            text-align: center;
-            font-size: 2.2rem;
+            font-size: 2.2em;
             color: #2c3e50;
-            margin-bottom: 3rem;
-            font-weight: 600;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            padding-bottom: 15px;
         }
 
-        .examples-grid {
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(45deg, #3498db, #9b59b6);
+            border-radius: 2px;
+        }
+
+        .overview-text {
+            font-size: 1.1em;
+            color: #555;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        .video-section {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-            margin-top: 2rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+            margin: 40px 0;
         }
 
-        .example-card {
-            background: white;
-            border-radius: 15px;
+        .video-single {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .video-container {
+            width: 100%;
+            max-width: 500px;
+            background: #000;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            border: 1px solid rgba(0, 0, 0, 0.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            transition: transform 0.3s ease;
         }
 
-        .example-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
-        }
-
-        .example-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .example-header h3 {
-            font-size: 1.4rem;
-            font-weight: 600;
-        }
-
-        .media-upload {
-            padding: 2rem;
-            text-align: center;
-        }
-
-        .upload-area {
-            border: 2px dashed #667eea;
-            border-radius: 10px;
-            padding: 2rem;
-            background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            margin-bottom: 1rem;
-        }
-
-        .upload-area:hover {
-            border-color: #764ba2;
-            background: linear-gradient(135deg, #f0f2ff 0%, #e8ecff 100%);
+        .video-container:hover {
             transform: scale(1.02);
         }
 
-        .upload-icon {
-            font-size: 3rem;
-            color: #667eea;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        .upload-text {
-            color: #6c757d;
-            font-size: 1rem;
-        }
-
-        .file-input {
-            display: none;
-        }
-
-        .btn-upload {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border: none;
-            padding: 0.8rem 2rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-size: 1rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            margin-top: 1rem;
-        }
-
-        .btn-upload:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
-        }
-
-        .media-preview {
-            margin-top: 1rem;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .media-preview img, .media-preview video {
+        .video-placeholder {
             width: 100%;
-            height: auto;
-            border-radius: 10px;
+            height: 280px;
+            background: linear-gradient(45deg, #34495e, #2c3e50);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.1em;
+            position: relative;
         }
 
-        footer {
-            background: #2c3e50;
-            color: white;
+        .video-placeholder::before {
+            content: '▶';
+            font-size: 3em;
+            margin-bottom: 10px;
+            opacity: 0.7;
+        }
+
+        .explanation-box {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #3498db;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .explanation-text {
+            font-size: 1.05em;
+            color: #2c3e50;
+            line-height: 1.7;
+        }
+
+        .dual-video-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .video-label {
             text-align: center;
-            padding: 2rem;
-            margin-top: 3rem;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 1.1em;
         }
 
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
-                border-radius: 15px;
-            }
-
-            header {
-                padding: 2rem 1rem;
+                padding: 15px;
             }
 
             h1 {
-                font-size: 2.2rem;
+                font-size: 2.2em;
             }
 
-            main {
-                padding: 2rem 1rem;
+            .authors {
+                font-size: 1.1em;
             }
 
-            .overview {
-                padding: 2rem;
-            }
-
-            .examples-grid {
+            .video-section {
                 grid-template-columns: 1fr;
-                gap: 1.5rem;
+                gap: 20px;
+            }
+
+            .dual-video-container {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 1.8em;
             }
         }
 
-        .fade-in {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeInUp 0.8s ease forwards;
+        .pulse {
+            animation: pulse 2s infinite;
         }
 
-        @keyframes fadeInUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.7; }
+            100% { opacity: 1; }
         }
-
-        .example-card:nth-child(1) { animation-delay: 0.1s; }
-        .example-card:nth-child(2) { animation-delay: 0.2s; }
-        .example-card:nth-child(3) { animation-delay: 0.3s; }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Autonomous Vehicle Decision Model</h1>
-            <div class="authors">
-                <h3>Adib Rouf • Daniel Baker • Guo Zhefan</h3>
-            </div>
+            <div class="authors">Daniel Baker • Adib Rouf • Guo Zhefan</div>
         </header>
 
-        <main>
-            <section class="overview fade-in">
-                <h2>Overview</h2>
-                <p>
-                    This research presents a comprehensive model for autonomous vehicle decision-making in complex traffic scenarios. 
-                    Our approach integrates advanced machine learning algorithms with real-time sensor data to enable intelligent 
-                    navigation decisions. The model considers multiple factors including pedestrian behavior, traffic flow patterns, 
-                    weather conditions, and road infrastructure to make optimal driving decisions. Through extensive simulation and 
-                    real-world testing, we demonstrate the effectiveness of our approach in improving both safety and efficiency 
-                    in autonomous vehicle operations. The system utilizes deep reinforcement learning combined with computer vision 
-                    techniques to process environmental data and generate appropriate vehicle responses in real-time scenarios.
-                </p>
-            </section>
+        <section class="section">
+            <h2 class="section-title">Overview</h2>
+            <div class="overview-text">
+                <p>Our Autonomous Vehicle Decision Model represents cutting-edge research in AI-driven transportation. This project combines computer vision, machine learning, and decision theory to create intelligent systems capable of making real-time driving decisions. Through comprehensive video analysis and heatmap visualization, we demonstrate how autonomous vehicles can perceive, process, and respond to complex traffic scenarios with human-like intelligence and enhanced safety protocols.</p>
+            </div>
+        </section>
 
-            <section class="examples-section">
-                <h2 class="section-title">Model Examples & Demonstrations</h2>
-                
-                <div class="examples-grid">
-                    <div class="example-card fade-in">
-                        <div class="example-header">
-                            <h3>Urban Traffic Navigation</h3>
+        <section class="section">
+            <h2 class="section-title">Video Analysis</h2>
+            <div class="video-section">
+                <div class="video-container">
+                    <video class="video-placeholder" width="100%" height="280" controls>
+                        <source src="videos/input_video.mp4" type="video/mp4">
+                        <div class="video-placeholder pulse">
+                            Video could not be loaded<br>
+                            <small>videos/input_video.mp4</small>
                         </div>
-                        <div class="media-upload">
-                            <div class="upload-area" onclick="document.getElementById('upload1').click()">
-                                <span class="upload-icon">🎥</span>
-                                <div class="upload-text">
-                                    Click to upload video or image<br>
-                                    <small>Supports MP4, AVI, MOV, JPG, PNG</small>
-                                </div>
-                            </div>
-                            <input type="file" id="upload1" class="file-input" accept="video/*,image/*" onchange="handleFileUpload(event, 'preview1')">
-                            <div id="preview1" class="media-preview"></div>
-                        </div>
-                    </div>
-
-                    <div class="example-card fade-in">
-                        <div class="example-header">
-                            <h3>Highway Merging Scenario</h3>
-                        </div>
-                        <div class="media-upload">
-                            <div class="upload-area" onclick="document.getElementById('upload2').click()">
-                                <span class="upload-icon">🎥</span>
-                                <div class="upload-text">
-                                    Click to upload video or image<br>
-                                    <small>Supports MP4, AVI, MOV, JPG, PNG</small>
-                                </div>
-                            </div>
-                            <input type="file" id="upload2" class="file-input" accept="video/*,image/*" onchange="handleFileUpload(event, 'preview2')">
-                            <div id="preview2" class="media-preview"></div>
-                        </div>
-                    </div>
-
-                    <div class="example-card fade-in">
-                        <div class="example-header">
-                            <h3>Pedestrian Detection & Avoidance</h3>
-                        </div>
-                        <div class="media-upload">
-                            <div class="upload-area" onclick="document.getElementById('upload3').click()">
-                                <span class="upload-icon">🎥</span>
-                                <div class="upload-text">
-                                    Click to upload video or image<br>
-                                    <small>Supports MP4, AVI, MOV, JPG, PNG</small>
-                                </div>
-                            </div>
-                            <input type="file" id="upload3" class="file-input" accept="video/*,image/*" onchange="handleFileUpload(event, 'preview3')">
-                            <div id="preview3" class="media-preview"></div>
-                        </div>
+                    </video>
+                </div>
+                <div class="explanation-box">
+                    <div class="explanation-text">
+                        <strong>What to Expect:</strong> After processing through our model, the input video will be analyzed frame by frame to identify vehicles, pedestrians, traffic signals, and road conditions. The system will highlight critical decision points, predict potential hazards, and demonstrate the reasoning process behind each autonomous driving decision. You'll see real-time confidence scores and alternative action paths that the AI considers.
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
 
-        <footer>
-            <p>&copy; 2025 Autonomous Vehicle Decision Model Research. All rights reserved.</p>
-        </footer>
-    </div>
+            <div class="video-single">
+                <h3 class="section-title" style="font-size: 1.8em; margin-bottom: 20px;">Model Demonstration</h3>
+                <div class="video-container">
+                    <video class="video-placeholder" width="100%" height="280" controls>
+                        <source src="videos/model_output_video.mp4" type="video/mp4">
+                        <div class="video-placeholder pulse">
+                            Video could not be loaded<br>
+                            <small>videos/model_output_video.mp4</small>
+                        </div>
+                    </video>
+                </div>
+            </div>
+        </section>
 
-    <script>
-        function handleFileUpload(event, previewId) {
-            const file = event.target.files[0];
-            const preview = document.getElementById(previewId);
+        <section class="section">
+            <h2 class="section-title">Heatmap Analysis</h2>
             
-            if (file) {
-                const fileType = file.type;
-                const fileURL = URL.createObjectURL(file);
-                
-                preview.innerHTML = '';
-                
-                if (fileType.startsWith('video/')) {
-                    const video = document.createElement('video');
-                    video.src = fileURL;
-                    video.controls = true;
-                    video.style.width = '100%';
-                    video.style.borderRadius = '10px';
-                    preview.appendChild(video);
-                } else if (fileType.startsWith('image/')) {
-                    const img = document.createElement('img');
-                    img.src = fileURL;
-                    img.style.width = '100%';
-                    img.style.borderRadius = '10px';
-                    preview.appendChild(img);
-                }
-            }
-        }
+            <div class="dual-video-container">
+                <div>
+                    <div class="video-label">Original Scene</div>
+                    <div class="video-container">
+                        <video class="video-placeholder" width="100%" height="250" controls>
+                            <source src="videos/heatmap_input.mp4" type="video/mp4">
+                            <div class="video-placeholder pulse">
+                                Video could not be loaded<br>
+                                <small>videos/heatmap_input.mp4</small>
+                            </div>
+                        </video>
+                    </div>
+                </div>
+                <div>
+                    <div class="video-label">Attention Heatmap</div>
+                    <div class="video-container">
+                        <video class="video-placeholder" width="100%" height="250" controls>
+                            <source src="videos/heatmap_overlay.mp4" type="video/mp4">
+                            <div class="video-placeholder pulse">
+                                Video could not be loaded<br>
+                                <small>videos/heatmap_overlay.mp4</small>
+                            </div>
+                        </video>
+                    </div>
+                </div>
+            </div>
 
-        // Add smooth scrolling and animation triggers
-        window.addEventListener('load', function() {
-            const fadeElements = document.querySelectorAll('.fade-in');
-            fadeElements.forEach((element, index) => {
-                setTimeout(() => {
-                    element.style.opacity = '1';
-                    element.style.transform = 'translateY(0)';
-                }, index * 100);
-            });
-        });
+            <div class="explanation-box" style="margin: 30px 0;">
+                <div class="explanation-text">
+                    <strong>Heatmap Insights:</strong> The heatmap visualization reveals where our autonomous vehicle model focuses its attention during decision-making. Warmer colors (red/yellow) indicate areas of high importance, while cooler colors (blue/green) show regions of lower priority. This attention mechanism helps us understand how the AI prioritizes different elements in the driving environment - from oncoming traffic and pedestrians to traffic signs and road boundaries.
+                </div>
+            </div>
 
-        // Add hover effects for upload areas
-        document.querySelectorAll('.upload-area').forEach(area => {
-            area.addEventListener('dragover', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#764ba2';
-                this.style.background = 'linear-gradient(135deg, #e8ecff 0%, #dde3ff 100%)';
-            });
-
-            area.addEventListener('dragleave', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#667eea';
-                this.style.background = 'linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%)';
-            });
-
-            area.addEventListener('drop', function(e) {
-                e.preventDefault();
-                this.style.borderColor = '#667eea';
-                this.style.background = 'linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%)';
-            });
-        });
-    </script>
+            <div class="video-single">
+                <h3 class="section-title" style="font-size: 1.8em; margin-bottom: 20px;">Model Demonstration</h3>
+                <div class="video-container">
+                    <video class="video-placeholder" width="100%" height="280" controls>
+                        <source src="videos/heatmap_model_demo.mp4" type="video/mp4">
+                        <div class="video-placeholder pulse">
+                            Video could not be loaded<br>
+                            <small>videos/heatmap_model_demo.mp4</small>
+                        </div>
+                    </video>
+                </div>
+            </div>
+        </section>
+    </div>
 </body>
 </html>
