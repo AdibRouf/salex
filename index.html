@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Autonomous Vehicle Decision Model</title>
+    <title>Saliency Based Natural Language Explanations for Autonomous Vehicles</title>
     <style>
         * {
             margin: 0;
@@ -198,6 +198,38 @@
             font-size: 1.1em;
         }
 
+        .caption-box {
+            background: linear-gradient(135deg, #f1f3f4, #e8eaed);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 4px solid #4285f4;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .caption-text {
+            font-size: 1.05em;
+            color: #1f2937;
+            line-height: 1.6;
+            font-style: italic;
+        }
+
+        .example-container {
+            margin: 40px 0;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 12px;
+            border: 2px solid rgba(52, 152, 219, 0.2);
+        }
+
+        .example-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
         @media (max-width: 768px) {
             .container {
                 margin: 10px;
@@ -240,20 +272,26 @@
 <body>
     <div class="container">
         <header>
-            <h1>Autonomous Vehicle Decision Model</h1>
+            <h1>Saliency Based Natural Language Explanations for Autonomous Vehicles</h1>
             <div class="authors">Daniel Baker • Adib Rouf • Guo Zhefan</div>
         </header>
 
         <section class="section">
             <h2 class="section-title">Overview</h2>
             <div class="overview-text">
-                <p>Our Autonomous Vehicle Decision Model represents cutting-edge research in AI-driven transportation. This project combines computer vision, machine learning, and decision theory to create intelligent systems capable of making real-time driving decisions. Through comprehensive video analysis and heatmap visualization, we demonstrate how autonomous vehicles can perceive, process, and respond to complex traffic scenarios with human-like intelligence and enhanced safety protocols.</p>
+                <p>Modern end-to-end autonomous vehicle (AV) systems achieve impressive performance but remain opaque "black-boxes," raising concerns about trust and safety. Explainable AI (XAI) methods such as saliency maps highlight the input regions that influence decisions, offering a window into the model's internal reasoning. However, these visualizations can be difficult for many users to interpret, making natural language explanations a more accessible alternative. Existing approaches often generate captions of driving videos that sound reasonable but are generated without considering the model's internal computation and decision process. To address this, we propose a multimodal large language model (M-LLM) framework that integrates saliency maps into caption generation, ensuring explanations are explicitly tied to the regions the AV focused on when taking an action. This grounds explanations in the model's real decision-making. Our method achieves this by modifying the vision encoder to distinguish salient regions from context and by emphasizing those regions during captioning. In doing so, we provide more faithful, region-specific explanations of AV behavior, offering new insights into multimodal models and improving interpretability in safety-critical AI.</p>
             </div>
         </section>
 
         <section class="section">
             <h2 class="section-title">Video Analysis</h2>
-            <div class="video-section">
+            <div class="explanation-box" style="margin-bottom: 30px;">
+                <div class="explanation-text">
+                    This video demonstrates our model <strong>without</strong> the incorporation of a saliency map. We can see that it effectively provides a justification of the action of the ego vehicle. Although this description reflects what a human driver may do, we cannot say for certain that the vehicle shares our reasoning.
+                </div>
+            </div>
+            
+            <div class="video-single">
                 <div class="video-container">
                     <video class="video-placeholder" width="100%" height="280" controls>
                         <source src="videos/input_video.mp4" type="video/mp4">
@@ -263,71 +301,78 @@
                         </div>
                     </video>
                 </div>
-                <div class="explanation-box">
-                    <div class="explanation-text">
-                        <strong>What to Expect:</strong> After processing through our model, the input video will be analyzed frame by frame to identify vehicles, pedestrians, traffic signals, and road conditions. The system will highlight critical decision points, predict potential hazards, and demonstrate the reasoning process behind each autonomous driving decision. You'll see real-time confidence scores and alternative action paths that the AI considers.
+                <div class="caption-box">
+                    <div class="caption-text">
+                        <em>Predicted Caption:</em> [Caption will appear here when video is processed]
                     </div>
-                </div>
-            </div>
-
-            <div class="video-single">
-                <h3 class="section-title" style="font-size: 1.8em; margin-bottom: 20px;">Model Demonstration</h3>
-                <div class="video-container">
-                    <video class="video-placeholder" width="100%" height="280" controls>
-                        <source src="videos/model_output_video.mp4" type="video/mp4">
-                        <div class="video-placeholder pulse">
-                            Video could not be loaded<br>
-                            <small>videos/model_output_video.mp4</small>
-                        </div>
-                    </video>
                 </div>
             </div>
         </section>
 
         <section class="section">
             <h2 class="section-title">Heatmap Analysis</h2>
-            
-            <div class="dual-video-container">
-                <div>
-                    <div class="video-label">Original Scene</div>
-                    <div class="video-container">
-                        <video class="video-placeholder" width="100%" height="250" controls>
-                            <source src="videos/heatmap_input.mp4" type="video/mp4">
-                            <div class="video-placeholder pulse">
-                                Video could not be loaded<br>
-                                <small>videos/heatmap_input.mp4</small>
-                            </div>
-                        </video>
-                    </div>
-                </div>
-                <div>
-                    <div class="video-label">Attention Heatmap</div>
-                    <div class="video-container">
-                        <video class="video-placeholder" width="100%" height="250" controls>
-                            <source src="videos/heatmap_overlay.mp4" type="video/mp4">
-                            <div class="video-placeholder pulse">
-                                Video could not be loaded<br>
-                                <small>videos/heatmap_overlay.mp4</small>
-                            </div>
-                        </video>
-                    </div>
-                </div>
-            </div>
-
-            <div class="explanation-box" style="margin: 30px 0;">
+            <div class="explanation-box" style="margin-bottom: 30px;">
                 <div class="explanation-text">
-                    <strong>Heatmap Insights:</strong> The heatmap visualization reveals where our autonomous vehicle model focuses its attention during decision-making. Warmer colors (red/yellow) indicate areas of high importance, while cooler colors (blue/green) show regions of lower priority. This attention mechanism helps us understand how the AI prioritizes different elements in the driving environment - from oncoming traffic and pedestrians to traffic signs and road boundaries.
+                    These examples demonstrate how incorporating saliency maps results in more faithful descriptions. For both of these examples, we first generate captions without saliency maps to serve as a baseline. We see the captions are plausible. However, when introducing a hypothetical saliency map representing the focus of an AV, we see that the model may have truly had different reasoning. Consider the first video where the truck pulls ahead and the pedestrian crosses the street. A heat map reveals that the AV was not waiting for the light to change but actually stopped because of the pedestrian. We leverage this valuable information and provide a caption that reflects this reasoning. In the second example we have a similar case where the raw caption may cite that the model is primarily driving due to the road being clear, when in reality it is driving through many intersections because the light is also green.
                 </div>
             </div>
 
+            <div class="example-container">
+                <h3 class="example-title">Example 1: Pedestrian Detection</h3>
+                <div class="video-single">
+                    <div class="video-container">
+                        <video class="video-placeholder" width="100%" height="280" controls>
+                            <source src="/shared/healthinfolab/xai4av/pedestrian_overlay.mp4" type="video/mp4">
+                            <div class="video-placeholder pulse">
+                                Video could not be loaded<br>
+                                <small>/shared/healthinfolab/xai4av/pedestrian_overlay.mp4</small>
+                            </div>
+                        </video>
+                    </div>
+                    <div class="caption-box">
+                        <div class="caption-text">
+                            <em>Predicted Caption:</em> [Caption will appear here when video is processed]
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="example-container">
+                <h3 class="example-title">Example 2: Traffic Light Navigation</h3>
+                <div class="video-single">
+                    <div class="video-container">
+                        <video class="video-placeholder" width="100%" height="280" controls>
+                            <source src="/shared/healthinfolab/xai4av/traffic_lights_overlay.mp4" type="video/mp4">
+                            <div class="video-placeholder pulse">
+                                Video could not be loaded<br>
+                                <small>/shared/healthinfolab/xai4av/traffic_lights_overlay.mp4</small>
+                            </div>
+                        </video>
+                    </div>
+                    <div class="caption-box">
+                        <div class="caption-text">
+                            <em>Predicted Caption:</em> [Caption will appear here when video is processed]
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">Model Demonstration</h2>
+            <div class="explanation-box" style="margin-bottom: 30px;">
+                <div class="explanation-text">
+                    This comprehensive demo showcases our GUI interface, demonstrating both the baseline captioning and saliency-enhanced captioning capabilities across different driving scenarios.
+                </div>
+            </div>
+            
             <div class="video-single">
-                <h3 class="section-title" style="font-size: 1.8em; margin-bottom: 20px;">Model Demonstration</h3>
                 <div class="video-container">
-                    <video class="video-placeholder" width="100%" height="280" controls>
-                        <source src="videos/heatmap_model_demo.mp4" type="video/mp4">
+                    <video class="video-placeholder" width="100%" height="400" controls>
+                        <source src="videos/gui_demo.mp4" type="video/mp4">
                         <div class="video-placeholder pulse">
                             Video could not be loaded<br>
-                            <small>videos/heatmap_model_demo.mp4</small>
+                            <small>videos/gui_demo.mp4</small>
                         </div>
                     </video>
                 </div>
